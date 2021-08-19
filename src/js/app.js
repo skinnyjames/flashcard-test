@@ -20,7 +20,8 @@ import Home from "./components/home.vue"
 import NewDeck from "./components/new.vue"
 const routes = [
   { path: "/", component: Home },
-  { path: "/new", component: NewDeck }
+  { path: "/new", component: NewDeck },
+  { path: "/edit/:id", component: NewDeck }
 ]
 
 const router = VueRouter.createRouter({ 

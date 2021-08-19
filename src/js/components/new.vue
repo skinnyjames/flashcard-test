@@ -17,6 +17,7 @@
 <script>
 import { onMounted, ref } from "vue"
 import { debounce } from "../util"
+import { useRoute } from 'vue-router'
 
 let activeDeck = ref({ title: null, id: null })
 let questions = ref([])
@@ -33,7 +34,7 @@ const newQuestion = async() => {
 
 const deleteQuestion = async(id) => {
   await fetch(`/decks/${activeDeck.value.id}/questions/${id}`, { method: "DELETE"})
-  questions.value = questions.value.filter(q => q.id === id)
+  questions.value = questions.value.filter(q => q.id !== id)
 }
 
 const saveQuestion = debounce(async(id) => {
@@ -43,9 +44,18 @@ const saveQuestion = debounce(async(id) => {
 
 export default {
   setup() {
+    const route = useRoute()
+
     onMounted(async() => {
-      const res = await fetch("/decks", { method: "POST" })
-      activeDeck.value = await res.json()
+      if (route.params.id === undefined) {
+        const res = await fetch("/decks", { method: "POST" })
+        activeDeck.value = await res.json()
+      } else {
+        const res = await fetch(`/decks/${route.params.id}`)
+        const json = await res.json()
+        activeDeck.value = { title: json.title, id: json.id }
+        questions.value = json.questions
+      }
     })
     return { 
       activeDeck,

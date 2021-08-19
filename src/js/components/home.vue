@@ -1,10 +1,11 @@
 <template>
   <h3>Available Decks</h3>
+  <router-link to="/new">New Deck</router-link>
   <div class="deck" v-for="deck in decks" :key="deck.id">
     <h5>{{ deck.title }}</h5>
     <div class="deck-actions">
       <button>Start</button>
-      <button>Edit</button>
+      <router-link :to="`/edit/${deck.id}`">Edit</router-link>
       <button @click="deleteDeck(deck.id)">Delete</button>
     </div>
   </div>
@@ -26,7 +27,6 @@ export default {
     onMounted(async() => {
       const res = await fetch("/decks")
       decks.value = await res.json()
-      console.log(decks)
     })
     return {
       decks,
