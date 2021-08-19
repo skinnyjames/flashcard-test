@@ -4,6 +4,7 @@ class QuestionSerializer < BaseSerializer
   
   def render
     { 
+      id: @question.id,
       text: @question.text,
       answer: @question.answer,
       image: @question.image_url

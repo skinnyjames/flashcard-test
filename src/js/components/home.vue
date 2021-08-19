@@ -5,7 +5,7 @@
     <div class="deck-actions">
       <button>Start</button>
       <button>Edit</button>
-      <button>Delete</button>
+      <button @click="deleteDeck(deck.id)">Delete</button>
     </div>
   </div>
   <div v-if="decks.length === 0">You have no decks made, why don't you <router-link to="/new">make one?</router-link></div>
@@ -13,18 +13,24 @@
 
 <script>
 import { onMounted, ref } from "vue"
-
 let decks = ref([])
+
+const deleteDeck = async(id) => {
+  await fetch(`/decks/${id}`, { method: "DELETE" })
+  decks.value = decks.value.filter(deck => deck.id !== id)
+}
 
 export default {
   setup() {
+
     onMounted(async() => {
       const res = await fetch("/decks")
-      decks = await res.json()
-
+      decks.value = await res.json()
+      console.log(decks)
     })
     return {
-      decks
+      decks,
+      deleteDeck
     }
   }
 

@@ -18,7 +18,7 @@ module Actions::Deck
   class New < ApiAction
     # new deck
     post "/decks" do 
-      deck = SaveDeck.create!({ title: "My New Deck" })
+      deck = SaveDeck.create!(title: "My New Deck")
       json(DeckSerializer.new(deck))
     end
   end
@@ -27,7 +27,7 @@ module Actions::Deck
     # new question
     post "/decks/:id/questions" do 
       raise "Invalid Deck Id" unless deck = DeckQuery.new.find(id)
-      question = SaveQuestion.create!({ text: "Question", answer: "Answer", deck_id: deck.id })
+      question = SaveQuestion.create!(text: "Question", answer: "Answer", deck_id: deck.id)
       json QuestionSerializer.new(question)
     end
   end
@@ -35,7 +35,8 @@ module Actions::Deck
   class  EditDeck < ApiAction
     put "/decks/:id" do 
       raise "Invalid Deck Id" unless deck = DeckQuery.new.find(id)
-      SaveDeck.update!(deck, params)
+      puts params.to_h
+      SaveDeck.update!(deck, title: params.from_json["title"].as_s)
       json(true)
     end
   end
@@ -43,13 +44,12 @@ module Actions::Deck
   class EditQuestion < ApiAction
     put "/decks/:id/questions/:question_id" do 
       raise "Invalid Question Id" unless question = QuestionQuery.new.find(question_id)
-      raise "Invalid Deck for Question" unless question.deck_id == id
-      SaveQuestion.update!(question, params)
+      SaveQuestion.update!(question, text: params.from_json["text"].as_s, answer: params.from_json["answer"].as_s)
       json(true)
     end
   end
 
-  class DeleteDeck < ApiAction
+  class DeleteDeckAction < ApiAction
     delete "/decks/:id" do 
       raise "Invalid Deck Id" unless deck = DeckQuery.new.find(id)
       DeleteDeck.delete(deck) do |operation, deleted_deck|
@@ -62,11 +62,10 @@ module Actions::Deck
     end
   end
 
-  class DeleteQuestion < ApiAction
+  class DeleteQuestionAction < ApiAction
     delete "/decks/:id/questions/:question_id" do
-      raise "Invalid Question Id" unless question = QuestionQuery.new.find(question_id)
-      raise "Invalid Deck for Question" unless question.deck_id == id      
-      DeleteQuestion.delete(question) do |operation, deleted_question|
+      raise "Invalid Question Id" unless q = QuestionQuery.new.find(question_id)
+      DeleteQuestion.delete(q) do |operation, deleted_question|
         if operation.deleted? 
           json(true)
         else 
@@ -75,5 +74,4 @@ module Actions::Deck
       end
     end
   end
-  
 end

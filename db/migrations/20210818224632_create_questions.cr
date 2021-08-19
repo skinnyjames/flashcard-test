@@ -6,7 +6,7 @@ class CreateQuestions::V20210818224632 < Avram::Migrator::Migration::V1
       add_timestamps
       add text : String
       add answer : String
-      add image : String
+      add image : String?
       add_belongs_to deck : Deck, on_delete: :cascade
     end
   end

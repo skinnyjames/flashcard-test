@@ -6,7 +6,7 @@ class DeckSerializer < BaseSerializer
     data = { 
       id: @deck.id,
       title: @deck.title,
-      questions: QuestionSerializer.for_collection(@deck.questions)
     }
+    @with_questions ? data.merge(questions: QuestionSerializer.for_collection(@deck.questions)) : data
   end
 end
