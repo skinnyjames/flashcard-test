@@ -1,5 +1,5 @@
 <template>
-  <h1>Hello World</h1>
+  <h1>Flashcards</h1>
   <router-view></router-view>
 </template>
 <script>

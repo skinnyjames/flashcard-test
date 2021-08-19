@@ -29,6 +29,9 @@ dependencies:
   lucky_task:
     github: luckyframework/lucky_task
     version: ~> 0.1.0
+  shrine: 
+    github: jetrockets/shrine.cr
+    version: ~> 0.6.4
 development_dependencies:
   lucky_flow:
     github: luckyframework/lucky_flow
