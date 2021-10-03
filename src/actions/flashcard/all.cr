@@ -10,7 +10,7 @@ module Actions::Deck
 
   class One < ApiAction
     get "/decks/:id" do 
-      deck = DeckQuery.new.left_join_questions.preload_questions.find(id)
+      deck = DeckQuery.new.left_join_questions.preload_questions(QuestionQuery.new.created_at.asc_order).find(id)
       json(DeckSerializer.new(deck, true))
     end
   end

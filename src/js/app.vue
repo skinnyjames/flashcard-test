@@ -7,3 +7,9 @@ export default {
 
 }
 </script>
+
+<style>
+  div#app, body, html {
+    height: 100%;
+  }
+</style>

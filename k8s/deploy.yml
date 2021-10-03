@@ -1,0 +1,46 @@
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flashcards
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: flashcards
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flashcards
+spec:
+  selector:
+    matchLabels:
+      app: flashcards
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flashcards
+    spec:
+      containers:
+      - name: flashcards
+        image: skinnyjames/flashcards:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+# ---
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: flashcards-ingress
+# spec:
+#   rules:
+#   - host: flashcards.skinnyjames.net
+#     http:
+#       paths:
+#       - backend:
+#           serviceName: flashcards
+#           servicePort: 80

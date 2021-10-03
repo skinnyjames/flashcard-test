@@ -18,10 +18,13 @@ const VueRouter = require('vue-router')
 import App from "./app.vue"
 import Home from "./components/home.vue"
 import NewDeck from "./components/new.vue"
+import Play from "./components/play.vue"
+
 const routes = [
   { path: "/", component: Home },
   { path: "/new", component: NewDeck },
-  { path: "/edit/:id", component: NewDeck }
+  { path: "/edit/:id", component: NewDeck },
+  { path: "/play/:id", component: Play }
 ]
 
 const router = VueRouter.createRouter({ 

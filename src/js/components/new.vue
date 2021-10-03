@@ -47,9 +47,11 @@ export default {
     const route = useRoute()
 
     onMounted(async() => {
+      console.log(route.params)
       if (route.params.id === undefined) {
         const res = await fetch("/decks", { method: "POST" })
         activeDeck.value = await res.json()
+        questions.value = []
       } else {
         const res = await fetch(`/decks/${route.params.id}`)
         const json = await res.json()

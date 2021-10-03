@@ -4,7 +4,7 @@
   <div class="deck" v-for="deck in decks" :key="deck.id">
     <h5>{{ deck.title }}</h5>
     <div class="deck-actions">
-      <button>Start</button>
+      <router-link :to="`/play/${deck.id}`">Start</router-link>
       <router-link :to="`/edit/${deck.id}`">Edit</router-link>
       <button @click="deleteDeck(deck.id)">Delete</button>
     </div>
@@ -36,3 +36,8 @@ export default {
 
 }
 </script>
+<style scoped>
+.deck-actions a, .deck-actions button {
+  margin: 0px 10px;
+}
+</style>
